@@ -1,4 +1,4 @@
-package com.example.vhslab;
+package vhslab.solution;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

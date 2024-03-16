@@ -1,4 +1,4 @@
-package com.example.vhslab;
+package vhslab.solution;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

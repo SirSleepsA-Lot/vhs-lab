@@ -1,4 +1,4 @@
-package com.example.vhslab.controllers;
+package vhslab.solution.controllers;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
