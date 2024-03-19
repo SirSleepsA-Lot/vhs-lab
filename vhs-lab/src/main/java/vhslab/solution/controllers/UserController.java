@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vhslab.solution.entities.dto.UserEntityDto;
 import vhslab.solution.entities.model.UserEntity;
 import vhslab.solution.service.UserEntityService;
 
@@ -16,8 +17,8 @@ public class UserController {
     private UserEntityService userService;
 
     @PostMapping
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
-        UserEntity createdUser = userService.createUser(user);
+    public ResponseEntity<UserEntityDto> createUser(@RequestBody UserEntityDto user) {
+        UserEntityDto createdUser = userService.createUser(user);
         if (createdUser != null) {
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } else {
@@ -25,9 +26,9 @@ public class UserController {
         }
     }
 
-    @GetMapping("/getUser/{userId}")
-    public ResponseEntity<UserEntity> getUser(@PathVariable Long userId) {
-        UserEntity user = userService.getUserById(userId);
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserEntityDto> getUser(@PathVariable Long userId) {
+        UserEntityDto user = userService.getUserById(userId);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
@@ -36,8 +37,8 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable Long userId, @RequestBody UserEntity updatedUser) {
-        UserEntity updated = userService.updateUser(userId, updatedUser);
+    public ResponseEntity<UserEntityDto> updateUser(@PathVariable Long userId, @RequestBody UserEntityDto updatedUser) {
+        UserEntityDto updated = userService.updateUser(userId, updatedUser);
         if (updated != null) {
             return new ResponseEntity<>(updated, HttpStatus.OK);
         } else {
