@@ -6,6 +6,7 @@ import vhslab.solution.entities.model.UserEntity;
 import vhslab.solution.entities.model.VhsEntity;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class RentalEntityDto {
@@ -17,6 +18,16 @@ public class RentalEntityDto {
     private Date dateModified;
     private long userId;
     private long vhsId;
+
+    public RentalEntityDto(Date dateRented, long userId, long vhsId) {
+        this.dateRented = dateRented;
+        this.userId = userId;
+        this.vhsId = vhsId;
+
+        var dateNow = Date.valueOf(LocalDate.now());
+        this.dateCreated = dateNow;
+        this.dateModified = dateNow;
+    }
 
     public long getId() {
         return id;
