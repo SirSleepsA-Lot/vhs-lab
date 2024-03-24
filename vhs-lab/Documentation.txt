@@ -41,7 +41,8 @@ JPA
     5. Use Spring Data JPA Repositories
         svi repozitoriji implmentiraju JPA repository
     6. Use Slf4j Logback logging
-        u pom.xml fileu možete vidjeti dependency na slf4j-api library. Logger sam najvise koristio u Error handleru tamo možete vidjeti primjere korištenja
+        u pom.xml fileu možete vidjeti dependency na slf4j-api library. Logger sam najvise koristio u Error handleru tamo možete vidjeti primjere korištenja.
+        Logger je konfiguriran da piše logove u Logs/application.log file. KOnfiguraciju logiranja možete vidjeti u resources/logback-spring.xml
     7. Implement @ExceptionHandler to catch and handle all exceptions
         Implemnetirana je klasa vhslab.solution.API.exceptionHandler.GlobalExceptionHandler koja obrađuje sve greške u aplikaciji
         Napravio sam 2 funkcije (za Exception.class i ConstraintViolationException.class) čisto kao primjer, ali po potrebi se može dodati i još Exceptiona za obradu
@@ -69,6 +70,7 @@ Koje stvari treba poboljšati:
       Nisam siguran što je ispravnija odluka (sporiji dohvar podataka ali čuvanje prostora ili brži dohvat podataka ali trošenje prostora)
       Može se implementirati da se historziacijskim ili starim podacima briše fee i onda po potrebi ponovno računa
     - Trebali bi se napraviti opširniji testovi. Ja sam ih napravio sam za jednu funkcionalnost kako je traženo.
-    
+    - Logiranje se može poboljšati. Mogao sam napraviti da se log generira za svaki dan zasebno s odgovarajućom oznakom u imenu filea.
+
 
     
