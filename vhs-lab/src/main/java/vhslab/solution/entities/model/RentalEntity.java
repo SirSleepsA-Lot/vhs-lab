@@ -1,8 +1,12 @@
 package vhslab.solution.entities.model;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -21,18 +25,22 @@ public class RentalEntity {
     @Basic
     @Column(name = "DateReturned")
     private Date dateReturned;
-    @Basic
+    @CreatedDate
     @Column(name = "DateCreated")
-    private Date dateCreated;
-    @Basic
+    private Timestamp dateCreated;
+
+    @LastModifiedDate
+    @Version
     @Column(name = "DateModified")
-    private Date dateModified;
+    private Timestamp dateModified;
     @ManyToOne
     @JoinColumn(name = "UserId", referencedColumnName = "Id", nullable = false)
     private UserEntity userByUserId;
     @ManyToOne
     @JoinColumn(name = "VHSId", referencedColumnName = "Id", nullable = false)
     private VhsEntity vhsByVhsId;
+    private BigDecimal fee;
+    private Boolean feePaid;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -44,6 +52,7 @@ public class RentalEntity {
     public void setId(long id) {
         this.id = id;
     }
+
     @Basic
     @Column(name = "DateRented", nullable = false)
     public Date getDateRented() {
@@ -75,22 +84,22 @@ public class RentalEntity {
     }
 
     @Basic
-    @Column(name = "DateCreated", nullable = false)
-    public Date getDateCreated() {
+    @Column(name = "DateCreated", nullable = false, updatable = false)
+    public Timestamp getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
 
     @Basic
     @Column(name = "DateModified", nullable = false)
-    public Date getDateModified() {
+    public Timestamp getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(Date dateModified) {
+    public void setDateModified(Timestamp dateModified) {
         this.dateModified = dateModified;
     }
 
@@ -125,5 +134,25 @@ public class RentalEntity {
 
     public void setVhsByVhsId(VhsEntity vhsByVhsId) {
         this.vhsByVhsId = vhsByVhsId;
+    }
+
+    @Basic
+    @Column(name = "Fee")
+    public BigDecimal getFee() {
+        return fee;
+    }
+
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
+    }
+
+    @Basic
+    @Column(name = "FeePaid")
+    public Boolean getFeePaid() {
+        return feePaid;
+    }
+
+    public void setFeePaid(Boolean feePaid) {
+        this.feePaid = feePaid;
     }
 }

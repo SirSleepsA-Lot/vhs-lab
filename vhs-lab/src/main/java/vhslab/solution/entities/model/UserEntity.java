@@ -1,13 +1,15 @@
 package vhslab.solution.entities.model;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "User", schema = "public", catalog = "Vhs-Lab")
+@Table(name = "user", schema = "public", catalog = "Vhs-Lab")
 public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -16,12 +18,13 @@ public class UserEntity {
     @Basic
     @Column(name = "Username")
     private String username;
-    @Basic
+    @CreatedDate
     @Column(name = "DateCreated")
-    private Date dateCreated;
-    @Basic
+    private Timestamp dateCreated;
+    @LastModifiedDate
+    @Version
     @Column(name = "DateModified")
-    private Date dateModified;
+    private Timestamp dateModified;
     @OneToMany(mappedBy = "userByUserId")
     private Collection<RentalEntity> rentalsById;
 
@@ -48,21 +51,20 @@ public class UserEntity {
 
     @Basic
     @Column(name = "DateCreated", nullable = false)
-    public Date getDateCreated() {
+    public Timestamp getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
 
     @Basic
     @Column(name = "DateModified", nullable = false)
-    public Date getDateModified() {
+    public Timestamp getDateModified() {
         return dateModified;
     }
-
-    public void setDateModified(Date dateModified) {
+    public void setDateModified(Timestamp dateModified) {
         this.dateModified = dateModified;
     }
 

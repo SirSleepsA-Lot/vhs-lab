@@ -1,4 +1,4 @@
-package vhslab.solution.controllers;
+package vhslab.solution.API.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

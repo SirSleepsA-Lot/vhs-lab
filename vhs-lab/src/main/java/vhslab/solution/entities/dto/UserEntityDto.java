@@ -5,6 +5,7 @@ import vhslab.solution.entities.model.RentalEntity;
 import vhslab.solution.entities.model.UserEntity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -14,9 +15,9 @@ public class UserEntityDto {
 
     private String username;
 
-    private Date dateCreated;
+    private Timestamp dateCreated;
 
-    private Date dateModified;
+    private Timestamp dateModified;
 
     public long getId() {
         return id;
@@ -34,19 +35,19 @@ public class UserEntityDto {
         this.username = username;
     }
 
-    public Date getDateCreated() {
+    public Timestamp getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Date getDateModified() {
+    public Timestamp getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(Date dateModified) {
+    public void setDateModified(Timestamp dateModified) {
         this.dateModified = dateModified;
     }
 

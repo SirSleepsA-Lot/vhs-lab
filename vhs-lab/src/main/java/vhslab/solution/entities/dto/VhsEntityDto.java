@@ -4,14 +4,15 @@ import vhslab.solution.entities.model.VhsEntity;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class VhsEntityDto {
     private long id;
     private String title;
     private BigDecimal lateReturnFee;
-    private Date dateCreated;
-    private Date dateModified;
+    private Timestamp dateCreated;
+    private Timestamp dateModified;
 
     public long getId() {
         return id;
@@ -34,17 +35,17 @@ public class VhsEntityDto {
         this.lateReturnFee = lateReturnFee;
     }
 
-    public Date getDateCreated() {
+    public Timestamp getDateCreated() {
         return dateCreated;
     }
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Date getDateModified() {
+    public Timestamp getDateModified() {
         return dateModified;
     }
-    public void setDateModified(Date dateModified) {
+    public void setDateModified(Timestamp dateModified) {
         this.dateModified = dateModified;
     }
 

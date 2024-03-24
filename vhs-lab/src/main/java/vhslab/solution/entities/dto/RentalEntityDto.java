@@ -5,7 +5,9 @@ import vhslab.solution.entities.model.RentalEntity;
 import vhslab.solution.entities.model.UserEntity;
 import vhslab.solution.entities.model.VhsEntity;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -14,17 +16,19 @@ public class RentalEntityDto {
     private Date dateRented;
     private Date dateDue;
     private Date dateReturned;
-    private Date dateCreated;
-    private Date dateModified;
+    private Timestamp dateCreated;
+    private Timestamp dateModified;
     private long userId;
     private long vhsId;
+    private BigDecimal fee;
+    private Boolean feePaid;
 
     public RentalEntityDto(Date dateRented, long userId, long vhsId) {
         this.dateRented = dateRented;
         this.userId = userId;
         this.vhsId = vhsId;
 
-        var dateNow = Date.valueOf(LocalDate.now());
+        var dateNow = new Timestamp(System.currentTimeMillis());
         this.dateCreated = dateNow;
         this.dateModified = dateNow;
     }
@@ -57,17 +61,17 @@ public class RentalEntityDto {
         this.dateReturned = dateReturned;
     }
 
-    public Date getDateCreated() {
+    public Timestamp getDateCreated() {
         return dateCreated;
     }
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Date getDateModified() {
+    public Timestamp getDateModified() {
         return dateModified;
     }
-    public void setDateModified(Date dateModified) {
+    public void setDateModified(Timestamp dateModified) {
         this.dateModified = dateModified;
     }
 
@@ -83,6 +87,20 @@ public class RentalEntityDto {
     }
     public void setVhsByVhsId(long vhsByVhsId) {
         this.vhsId = vhsByVhsId;
+    }
+
+    public BigDecimal getFee() {
+        return fee;
+    }
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
+    }
+
+    public Boolean getFeePaid() {
+        return feePaid;
+    }
+    public void setFeePaid(Boolean feePaid) {
+        this.feePaid = feePaid;
     }
     @Override
     public boolean equals(Object o) {

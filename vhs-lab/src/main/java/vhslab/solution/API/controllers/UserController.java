@@ -1,4 +1,4 @@
-package vhslab.solution.controllers;
+package vhslab.solution.API.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vhslab.solution.entities.dto.UserEntityDto;
-import vhslab.solution.entities.model.UserEntity;
 import vhslab.solution.service.UserEntityService;
 
 @RestController

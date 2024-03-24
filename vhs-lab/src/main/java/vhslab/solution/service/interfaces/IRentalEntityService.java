@@ -10,4 +10,5 @@ public interface IRentalEntityService {
     RentalEntityDto rentVhs(long userId, long vhsId, Date dateRented) throws Exception;
     RentalEntityDto returnRentedVhs(long rentalId) throws Exception;
     BigDecimal calculateLateReturnFee(RentalEntity rental);
+    Boolean payFee(long rentalId) throws Exception;
 }
