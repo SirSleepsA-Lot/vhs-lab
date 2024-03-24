@@ -19,7 +19,8 @@ public class UserEntityService implements IUserEntityService {
     }
     @Override
     public UserEntityDto createUser(UserEntityDto user) {
-        var newUser = userRepository.save(modelMapper.map(user, UserEntity.class));
+        var userEntity = modelMapper.map(user, UserEntity.class);
+        var newUser = userRepository.save(userEntity);
         return modelMapper.map(newUser, UserEntityDto.class);
     }
     @Override
@@ -35,9 +36,11 @@ public class UserEntityService implements IUserEntityService {
     public UserEntityDto updateUser(Long userId, UserEntityDto userToUpdate) {
         UserEntity existingUser = userRepository.findById(userId).orElse(null);
         if (existingUser != null) {
-            existingUser = modelMapper.map(userToUpdate, UserEntity.class);
-            var updatedUser = userRepository.save(existingUser);
-            return modelMapper.map(updatedUser, UserEntityDto.class);
+            var userUpdated = modelMapper.map(userToUpdate, UserEntity.class);
+            userUpdated.setId(existingUser.getId());
+            userUpdated.setDateCreated(existingUser.getDateCreated());
+            userUpdated = userRepository.save(userUpdated);
+            return modelMapper.map(userUpdated, UserEntityDto.class);
         }
         return null;
     }

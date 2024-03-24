@@ -1,0 +1,74 @@
+Pozdrav dragi ocjenjivači, dobrodošli u moju implementaciju vašeg praktičnog zadatka VHS Rental shop - Blast from the past.
+
+U ovom txt fileu ukratko ću porći korz moj kod, objassniti implementaciju i odluke koje sam donio kao i moje ideje kako poboljšati kod i koja bi bila potencijalna verzija 2 ove aplikacije
+
+Projekt se sastoji od 4 "slojeva"
+
+entities - sloj modela u kojem se nalaze entiteti koji odgovaraju preslici tablica iz baze kao i DTO objekti za komunikaciju 
+DAL - data access layer sloj služiu za komunikaciju sa bazom
+service - sloj u kojem se nalaze servisi koji sadrže logiku aplikacije
+API - sloj koji sadrži ekspozane endpointe za vanjsku komunikaciju
+
+Proći ću kroz sve zahtjeve i opisati gdje i kako su oni implementirani
+
+API
+    1. Implement a VHS resource RESTful API over http. Path to this resource should be: /api/vhs
+    2. Implement CRUD RESTful API for Rental resource. Path to this resource should be: /api/rental
+
+    oba controllera stavljena su u API sloj sa odgovarajućom putanjom
+
+JPA
+    1.Model VHS as JPA Entity
+    2.Model User as JPA Entity
+    3.Model Rental as JPA Entity
+
+    svi entiteti napravljeni su u bazi i importani u aplikaciju preko funkcije preslikavanja
+    Implemetirano je bilježenje datuma stvaranja (date_created polja) i datuma zadnje izmjene (date_modified polja) za reviziju (auditing)
+    Nedostaju podaci o tome tko ih je izmjenio (modified_by) i tko ih je napravio (created_by) kao ni neki oblik historizacije, ali za potrebe ovog zadatka smatram da bi to bilo previse
+
+    Takoder je implementiran mehanizam za optimisticno zakljucavanje sustava (optimistic locking) kako bi se sprijecile nezeljene ili slucajne izmjene u bazi (poolje koje se prati kao verzija je date_modified)
+
+  Requirements  
+    1. RentalController should accept needed user ID data, vhs ID data, and rental date(use form or PATH parameters)
+        RentalController u svakoj funkciji prima parametre sa oznakom @PathVariable
+    2. Make sure that the same vhs can't have multiple rentals on the same date
+        Prilikom rentanja vhs-a provjerava se postoji li rental podatak za tu kazetu koji ukazuje na to da je ona iznajmljena (u rentalEntityRepository funkcija existsRentalForVhsOnDate)
+    3. handle rental due dates and late fees
+        Svaka kazeta renta se do DateDue datuma (prima se kao argument) i svaka kazeta ima definiran fee po danu. kad se kazeta vrati funkcija RentalEntityService.calculateLateReturnFee računa 
+        koliki se fee treba platiti, kad se fe "plati" (poziv funkcije RentalEntityService.payFee) označava se da je fee plaćen
+    4. 4 HTTP methods should be implemented. (e.g. GET, POST, PUT and DELETE)
+        Svi entiteti imaju CRUD, CRUDove možete naći u postman kolekciji
+    5. Use Spring Data JPA Repositories
+        svi repozitoriji implmentiraju JPA repository
+    6. Use Slf4j Logback logging
+        u pom.xml fileu možete vidjeti dependency na slf4j-api library. Logger sam najvise koristio u Error handleru tamo možete vidjeti primjere korištenja
+    7. Implement @ExceptionHandler to catch and handle all exceptions
+        Implemnetirana je klasa vhslab.solution.API.exceptionHandler.GlobalExceptionHandler koja obrađuje sve greške u aplikaciji
+        Napravio sam 2 funkcije (za Exception.class i ConstraintViolationException.class) čisto kao primjer, ali po potrebi se može dodati i još Exceptiona za obradu
+    8. Use Bean Validation on RentalForm to validate requests to RentalController
+        svi parametri u RentalControlleru imaju bean oznake za validaciju (npr. rentVhs funkcija ih ima par različitih) nadalje definirao sam par svojih jer iz nekog razloga
+        @PastOrPresent i @FutureoOrPresent nius radili za java.sql.Date tip podatka pa sam implementirao svoje verzije (paket vhslab.solution.API.Validators.Annotations)
+    9. Customize error messages from REST controller with Message Source
+        Implementirana je klasa vhslab.solution.API.messageSource.MessageSourceConfig koja gleda resources/messages.properties datoteku za različite poruke
+        GlobalExceptionHandler koristi tu klasu kako bi prikazao poruke ukoliko dođe do tih iznimki. Za primjer napravio sam dvije jednostavne, ali po potrebi se mogu dodati i druge
+    10. Prepopulate database of choice (H2, Postgresql or any other non-Oracle database)
+        U projekt sam uključio SQL skriptu SqlScripts/V1_Script.sql koja služi za podizanje baze i punjenje podataka. Koristio sam Postgresql bazu podataka
+        U resources/application.properties možete modificirati connection string i parametre za bazu
+    11. Create an automated test for functionality of choice
+        Napravljeni su testovi za rentanje i vraćanje kazete. Sustav je mockan pretpostavljam da je to objekti
+
+UI or Postman collection
+    Napravljena je postman kolekcija VHS Lab API.json koju možete importat i isprobati
+    U njoj su postavljene varijable {{url}} na localhost i {{port}} na 8080 pa to morate potencijalno promijeniti
+
+Koje stvari treba poboljšati:
+    - Kao što sam gore napisao trebalo bi dodati historizaciju i bilježenje usera koji mijenjaju poodatke
+    - Trenuto je fee izračunati podatak koji se bilježi u bazu tako da je tehnički gledano redundantan
+      to je bio svjesni odabir jer na taj način štedimo na vremenu ako ćemo ikad trebati taj podatak češće
+      za potrebe ovog zadatka to nije slučaj ali potencijalno bi mogao biti kada bi se zapravo razvijala ova palikacija
+      Nisam siguran što je ispravnija odluka (sporiji dohvar podataka ali čuvanje prostora ili brži dohvat podataka ali trošenje prostora)
+      Može se implementirati da se historziacijskim ili starim podacima briše fee i onda po potrebi ponovno računa
+    - Trebali bi se napraviti opširniji testovi. Ja sam ih napravio sam za jednu funkcionalnost kako je traženo.
+    
+
+    

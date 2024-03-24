@@ -1,37 +1,42 @@
 package vhslab.solution.entities.dto;
 
-import jakarta.persistence.*;
+
+import jakarta.validation.constraints.*;
 import vhslab.solution.entities.model.RentalEntity;
-import vhslab.solution.entities.model.UserEntity;
-import vhslab.solution.entities.model.VhsEntity;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class RentalEntityDto {
     private long id;
+    @NotNull
+    @Past
     private Date dateRented;
+    @NotNull
     private Date dateDue;
+    @Null
     private Date dateReturned;
+    @Null
     private Timestamp dateCreated;
+    @Null
     private Timestamp dateModified;
+    @NotNull
     private long userId;
+    @NotNull
     private long vhsId;
     private BigDecimal fee;
     private Boolean feePaid;
 
-    public RentalEntityDto(Date dateRented, long userId, long vhsId) {
+    public RentalEntityDto(Date dateRented, Date dateDue, long userId, long vhsId) {
         this.dateRented = dateRented;
+        this.dateDue = dateDue;
         this.userId = userId;
         this.vhsId = vhsId;
 
-        var dateNow = new Timestamp(System.currentTimeMillis());
-        this.dateCreated = dateNow;
-        this.dateModified = dateNow;
     }
+    public RentalEntityDto() {}
 
     public long getId() {
         return id;
@@ -82,10 +87,10 @@ public class RentalEntityDto {
         this.userId = userByUserId;
     }
 
-    public long getVhsByVhsId() {
+    public long getVhsId() {
         return vhsId;
     }
-    public void setVhsByVhsId(long vhsByVhsId) {
+    public void setVhsId(long vhsByVhsId) {
         this.vhsId = vhsByVhsId;
     }
 

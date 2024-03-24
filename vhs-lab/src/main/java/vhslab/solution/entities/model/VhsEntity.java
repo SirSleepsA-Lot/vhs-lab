@@ -3,39 +3,41 @@ package vhslab.solution.entities.model;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "VHS", schema = "public", catalog = "Vhs-Lab")
+@Table(name = "vhs", schema = "public", catalog = "Vhs-Lab")
+@EntityListeners(AuditingEntityListener.class)
 public class VhsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
+    @Column(name = "id")
     private long id;
     @Basic
     @Column(name = "Title")
     private String title;
     @Basic
-    @Column(name = "LateReturnFee")
+    @Column(name = "late_return_fee")
     private BigDecimal lateReturnFee;
     @CreatedDate
-    @Column(name = "DateCreated")
+    @Column(name = "date_created")
     private Timestamp dateCreated;
-    @LastModifiedDate
+
     @Version
-    @Column(name = "DateModified")
+    @LastModifiedDate
+    @Column(name = "date_modified")
     private Timestamp dateModified;
     @OneToMany(mappedBy = "vhsByVhsId")
     private Collection<RentalEntity> rentalsById;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     public long getId() {
         return id;
     }
@@ -45,7 +47,7 @@ public class VhsEntity {
     }
 
     @Basic
-    @Column(name = "Title", nullable = false, length = 100)
+    @Column(name = "title", nullable = false, length = 100)
     public String getTitle() {
         return title;
     }
@@ -55,7 +57,7 @@ public class VhsEntity {
     }
 
     @Basic
-    @Column(name = "LateReturnFee", nullable = false, precision = 3)
+    @Column(name = "late_return_fee", nullable = false, precision = 3)
     public BigDecimal getLateReturnFee() {
         return lateReturnFee;
     }
@@ -64,8 +66,8 @@ public class VhsEntity {
         this.lateReturnFee = lateReturnFee;
     }
 
-    @Basic
-    @Column(name = "DateCreated", nullable = false)
+    @CreatedDate
+    @Column(name = "date_created", nullable = false)
     public Timestamp getDateCreated() {
         return dateCreated;
     }
@@ -74,8 +76,9 @@ public class VhsEntity {
     }
 
 
-    @Basic
-    @Column(name = "DateModified", nullable = false)
+    @Version
+    @LastModifiedDate
+    @Column(name = "date_modified", nullable = false)
     public Timestamp getDateModified() {
         return dateModified;
     }

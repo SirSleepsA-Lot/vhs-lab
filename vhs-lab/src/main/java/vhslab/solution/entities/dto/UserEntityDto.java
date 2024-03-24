@@ -1,12 +1,8 @@
 package vhslab.solution.entities.dto;
 
-import jakarta.persistence.*;
-import vhslab.solution.entities.model.RentalEntity;
 import vhslab.solution.entities.model.UserEntity;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.Objects;
 
 public class UserEntityDto {

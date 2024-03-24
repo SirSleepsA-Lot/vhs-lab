@@ -8,6 +8,9 @@ import vhslab.solution.entities.dto.VhsEntityDto;
 import vhslab.solution.entities.model.VhsEntity;
 import vhslab.solution.service.interfaces.IVhsEntityService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class VHSEntityService implements IVhsEntityService {
     private final VHSEntityRepository vhsRepository;
@@ -18,7 +21,13 @@ public class VHSEntityService implements IVhsEntityService {
         this.vhsRepository = vhsRepository;
         this.modelMapper = modelMapper;
     }
-
+    @Override
+    public List<VhsEntityDto> getAllVhsEntities(){
+        var foundVhs = vhsRepository.findAll();
+        return foundVhs.stream()
+                .map(vhsEntity -> modelMapper.map(vhsEntity, VhsEntityDto.class))
+                .collect(Collectors.toList());
+    }
     @Override
     public VhsEntityDto createVHS(VhsEntityDto vhsDto) {
         VhsEntity vhsEntity = modelMapper.map(vhsDto, VhsEntity.class);
@@ -33,14 +42,18 @@ public class VHSEntityService implements IVhsEntityService {
     }
 
     @Override
-    public VhsEntityDto updateVHS(Long id, VhsEntityDto updatedVhsDto) {
+    public VhsEntityDto updateVHS(Long id, VhsEntityDto updatedVhsDto) throws Exception {
         VhsEntity existingVhsEntity = vhsRepository.findById(id).orElse(null);
         if (existingVhsEntity != null) {
-            modelMapper.map(updatedVhsDto, existingVhsEntity);
-            VhsEntity updatedVhsEntity = vhsRepository.save(existingVhsEntity);
+            VhsEntity updatedVhsEntity = modelMapper.map(updatedVhsDto, VhsEntity.class);
+            updatedVhsEntity.setId(existingVhsEntity.getId());
+            updatedVhsEntity.setDateCreated(existingVhsEntity.getDateCreated());
+            updatedVhsEntity = vhsRepository.save(updatedVhsEntity);
             return modelMapper.map(updatedVhsEntity, VhsEntityDto.class);
         }
-        return null;
+        else{
+            throw new Exception("update Error");
+        }
     }
 
     @Override

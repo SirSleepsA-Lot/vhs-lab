@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import vhslab.solution.entities.dto.VhsEntityDto;
 import vhslab.solution.service.VHSEntityService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/vhs")
 public class VHSController {
@@ -18,6 +20,11 @@ public class VHSController {
         this.vhsService = vhsService;
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<List<VhsEntityDto>> getAllVhsEntities() {
+        List<VhsEntityDto> rentalEntities = vhsService.getAllVhsEntities();
+        return ResponseEntity.ok(rentalEntities);
+    }
     @PostMapping
     public ResponseEntity<VhsEntityDto> createVHS(@RequestBody VhsEntityDto vhsDto) {
         VhsEntityDto createdVHS = vhsService.createVHS(vhsDto);
@@ -31,7 +38,7 @@ public class VHSController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VhsEntityDto> updateVHS(@PathVariable Long id, @RequestBody VhsEntityDto updatedVhsDto) {
+    public ResponseEntity<VhsEntityDto> updateVHS(@PathVariable Long id, @RequestBody VhsEntityDto updatedVhsDto) throws Exception {
         VhsEntityDto updatedVHS = vhsService.updateVHS(id, updatedVhsDto);
         return updatedVHS != null ? ResponseEntity.ok(updatedVHS) : ResponseEntity.notFound().build();
     }

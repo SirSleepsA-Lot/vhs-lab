@@ -18,14 +18,11 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserEntityDto> createUser(@RequestBody UserEntityDto user) {
         UserEntityDto createdUser = userService.createUser(user);
-        if (createdUser != null) {
-            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/get/{userId}")
     public ResponseEntity<UserEntityDto> getUser(@PathVariable Long userId) {
         UserEntityDto user = userService.getUserById(userId);
         if (user != null) {
@@ -45,7 +42,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUserById(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

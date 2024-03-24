@@ -3,6 +3,7 @@ package vhslab.solution.entities.model;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -10,27 +11,28 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "user", schema = "public", catalog = "Vhs-Lab")
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
+    @Column(name = "id")
     private long id;
     @Basic
     @Column(name = "Username")
     private String username;
     @CreatedDate
-    @Column(name = "DateCreated")
+    @Column(name = "date_created")
     private Timestamp dateCreated;
     @LastModifiedDate
     @Version
-    @Column(name = "DateModified")
+    @Column(name = "date_modified")
     private Timestamp dateModified;
     @OneToMany(mappedBy = "userByUserId")
     private Collection<RentalEntity> rentalsById;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     public long getId() {
         return id;
     }
@@ -49,8 +51,8 @@ public class UserEntity {
         this.username = username;
     }
 
-    @Basic
-    @Column(name = "DateCreated", nullable = false)
+    @CreatedDate
+    @Column(name = "date_created", nullable = false)
     public Timestamp getDateCreated() {
         return dateCreated;
     }
@@ -59,8 +61,9 @@ public class UserEntity {
         this.dateCreated = dateCreated;
     }
 
-    @Basic
-    @Column(name = "DateModified", nullable = false)
+    @LastModifiedDate
+    @Version
+    @Column(name = "date_modified", nullable = false)
     public Timestamp getDateModified() {
         return dateModified;
     }

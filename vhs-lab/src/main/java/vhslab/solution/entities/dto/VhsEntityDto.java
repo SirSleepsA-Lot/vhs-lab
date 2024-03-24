@@ -3,7 +3,6 @@ package vhslab.solution.entities.dto;
 import vhslab.solution.entities.model.VhsEntity;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
 

@@ -3,6 +3,7 @@ package vhslab.solution.entities.model;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -10,51 +11,55 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Rental", schema = "public", catalog = "Vhs-Lab")
+@Table(name = "rental", schema = "public", catalog = "Vhs-Lab")
+@EntityListeners(AuditingEntityListener.class)
 public class RentalEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id")
+    @Column(name = "id")
     private long id;
     @Basic
-    @Column(name = "DateRented")
+    @Column(name = "date_rented")
     private Date dateRented;
     @Basic
-    @Column(name = "DateDue")
+    @Column(name = "date_due")
     private Date dateDue;
     @Basic
-    @Column(name = "DateReturned")
+    @Column(name = "date_returned")
     private Date dateReturned;
     @CreatedDate
-    @Column(name = "DateCreated")
+    @Column(name = "date_created")
     private Timestamp dateCreated;
-
     @LastModifiedDate
     @Version
-    @Column(name = "DateModified")
+    @Column(name = "date_modified")
     private Timestamp dateModified;
     @ManyToOne
-    @JoinColumn(name = "UserId", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "Id", nullable = false)
     private UserEntity userByUserId;
     @ManyToOne
-    @JoinColumn(name = "VHSId", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "vhs_id", referencedColumnName = "Id", nullable = false)
     private VhsEntity vhsByVhsId;
+    @Basic
+    @Column(name = "fee")
     private BigDecimal fee;
+    @Basic
+    @Column(name = "fee_paid")
     private Boolean feePaid;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
 
+
     @Basic
-    @Column(name = "DateRented", nullable = false)
+    @Column(name = "date_rented", nullable = false)
     public Date getDateRented() {
         return dateRented;
     }
@@ -64,7 +69,7 @@ public class RentalEntity {
     }
 
     @Basic
-    @Column(name = "DateDue", nullable = false)
+    @Column(name = "date_due", nullable = false)
     public Date getDateDue() {
         return dateDue;
     }
@@ -74,7 +79,7 @@ public class RentalEntity {
     }
 
     @Basic
-    @Column(name = "DateReturned", nullable = true)
+    @Column(name = "date_returned", nullable = true)
     public Date getDateReturned() {
         return dateReturned;
     }
@@ -83,8 +88,8 @@ public class RentalEntity {
         this.dateReturned = dateReturned;
     }
 
-    @Basic
-    @Column(name = "DateCreated", nullable = false, updatable = false)
+    @CreatedDate
+    @Column(name = "date_created", nullable = false, updatable = false)
     public Timestamp getDateCreated() {
         return dateCreated;
     }
@@ -93,8 +98,9 @@ public class RentalEntity {
         this.dateCreated = dateCreated;
     }
 
-    @Basic
-    @Column(name = "DateModified", nullable = false)
+    @LastModifiedDate
+    @Version
+    @Column(name = "date_modified", nullable = false)
     public Timestamp getDateModified() {
         return dateModified;
     }
@@ -117,7 +123,7 @@ public class RentalEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "UserId", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "Id", nullable = false)
     public UserEntity getUserByUserId() {
         return userByUserId;
     }
@@ -127,7 +133,7 @@ public class RentalEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "VHSId", referencedColumnName = "Id", nullable = false)
+    @JoinColumn(name = "vhs_id", referencedColumnName = "Id", nullable = false)
     public VhsEntity getVhsByVhsId() {
         return vhsByVhsId;
     }
@@ -137,7 +143,7 @@ public class RentalEntity {
     }
 
     @Basic
-    @Column(name = "Fee")
+    @Column(name = "fee")
     public BigDecimal getFee() {
         return fee;
     }
@@ -147,7 +153,7 @@ public class RentalEntity {
     }
 
     @Basic
-    @Column(name = "FeePaid")
+    @Column(name = "fee_paid")
     public Boolean getFeePaid() {
         return feePaid;
     }
