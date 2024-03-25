@@ -11,12 +11,20 @@
 			"item": [
 				{
 					"name": "Create User",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"example\"}"
+							"raw": "{\r\n    \"username\": \"example234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{url}}:{{port}}/api/users",
@@ -54,15 +62,23 @@
 				},
 				{
 					"name": "Update User",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\": \"updated example\"}"
+							"raw": "{\r\n    \"username\": \"update complete\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "{{url}}:{{port}}/api/users/1",
+							"raw": "{{url}}:{{port}}/api/users/:userId",
 							"host": [
 								"{{url}}"
 							],
@@ -70,7 +86,13 @@
 							"path": [
 								"api",
 								"users",
-								"1"
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -108,7 +130,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"VHS TitleTEst\",\r\n    \"lateReturnFee\": 10.0\r\n}",
+							"raw": "{\r\n    \"title\": \"VHS TitleTest\",\r\n    \"lateReturnFee\": 10.0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -162,7 +184,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Updated VHS Title123\",\r\n    \"lateReturnFee\": 11.0,\r\n    \"dateModified\": \"2024-03-27 17:34:48.916074\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Updated VHS Title123\",\r\n    \"lateReturnFee\": 12.0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -242,7 +264,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": 1,\r\n    \"vhsId\": 1,\r\n    \"dateRented\": \"2024-03-24\",\r\n    \"dateDue\": \"2024-04-24\",\r\n    \"lastModifiedDate\" : \"2024-03-26 17:34:48.916074\"\r\n}\r\n",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"vhsId\": 1,\r\n    \"dateRented\": \"2024-03-24\",\r\n    \"dateDue\": \"2024-04-24\",\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
